@@ -1,0 +1,22 @@
+/*****         PLOOK 		*****
+****      created by touti   	*****
+****  contact AT elastick.net 	*****
+****  License GPL3  2008/2011   *****	
+****    http://plook.fr/	****/
+
+A simple CMS without data
+- Be sure to get rights to write in your folder
+- Open your folder with a navigator
+- Modify/Add pages going to /admin
+- Give login/password in admin/protect.php
+
+Un CMS hyper léger sans base de données
+- Assurez vous de pouvoir écrire dans le dossier
+- Ouvrir le dossier dans un navigateur
+- Modifiez/Ajoutez les pages dans /admin
+- Donnez un login/mot de passe dans admin/protect.php
+
+Demo http://plook.fr/
+Forum http://elastick.net/Forum-Plook
+
+
