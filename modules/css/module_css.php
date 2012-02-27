@@ -2,18 +2,18 @@
 /************************************************\
  *  PLOOK					*
  *                                              *
- *  Copyright 2004-2012     			*
+ *  Copyright 2004-2010     			*
  *  Anne-lise Martenot, http//plook.fr		*
  *                                            	*
  *  Licence GNU/GPL.     			*
  *   						*
 \************************************************/
-
+/*		PLOOK 1.3 - janv 2010 		*/
 
 //secu
 if (!defined("_DIR_TXT")) return;
 
-$cssfile="css.txt"; //son titre d√©finit la surcharge css
+$cssfile="css.txt"; //son titre définit la surcharge css
 
 if(!is_file(_DIR_CONF.$cssfile)) 
 faire('creer',_DIR_CONF,'fichier',"css_+name"."\n"."/* css+ */",$cssfile);
@@ -37,4 +37,3 @@ $cssactif=$thispage=="css" ? "class='actif'":'';
 $lien_modules.=(is_dir(_DIR_MODULES."css/"))?"<p $cssactif><a href='?f=css&amp;module=view'>"._T('css')."</a></p>":'';
 
 ?>
-

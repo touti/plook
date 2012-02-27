@@ -2,16 +2,16 @@
 /************************************************\
  *  PLOOK					*
  *                                              *
- *  Copyright 2004-2012     			*
+ *  Copyright 2004-2010     			*
  *  Anne-lise Martenot, http//plook.fr		*
  *                                            	*
  *  Licence GNU/GPL.     			*
  *   						*
 \************************************************/
-
+/*		PLOOK 1.3 - janv 2010 		*/
 
 //fichier de log remplit automatiquement
-//modules/module_log.php est appell√© par modules/modules_plus.php
+//modules/module_log.php est appellé par modules/modules_plus.php
 //secu
 if (!defined("_DIR_TXT")) return;
 
@@ -24,13 +24,13 @@ if(!is_file($logpath)) faire('creer',_DIR_CONF,'fichier',"Log PLOOK"."\n"."log!"
 
 /* $errno : type de l'erreur
 $errstr : message d'erreur
-$errfile : fichier correspondant √† l'erreur
-$errline : ligne correspondante √† l'erreur */
+$errfile : fichier correspondant à l'erreur
+$errline : ligne correspondante à l'erreur */
 
 function recuperer_erreur($errno,$errstr,$errfile,$errline)
 {
     
-    // On d√©finit le type de l'erreur
+    // On définit le type de l'erreur
 	switch($errno)
 	{
 		case E_USER_ERROR :
@@ -56,11 +56,11 @@ function recuperer_erreur($errno,$errstr,$errfile,$errline)
 			break;
 	}
 
-	// On d√©finit l'erreur.
+	// On définit l'erreur.
 	$erreur = "\n".$type." Message d'erreur : [".$errno."]".$errstr.
 	"\n"."Ligne :".$errline."\n"." Fichier :".$errfile."\n";
 
-	/* Pour passer les valeurs des diff√©rents tableaux, fonction serialize()
+	/* Pour passer les valeurs des différents tableaux, fonction serialize()
         Le rapport d'erreur contient le type de l'erreur, la date, l'ip, et les tableaux. */
 
 	$info = "log PLOOK"."\n". date("d/m/Y H:i:s",time()).
@@ -76,14 +76,14 @@ function recuperer_erreur($errno,$errstr,$errfile,$errline)
 	
 	$logpath=_DIR_CONF."log.txt";
 	// On ouvre le fichier
-	//au dela de 10000 oct on efface tout pour r√©ecrire
+	//au dela de 10000 oct on efface tout pour réecrire
 	$poids =filesize($logpath);
 	if ($poids<10000)
 	$handle = fopen($logpath, "a");
 	else 
 	$handle = fopen($logpath, "r+");
 
-	// On √©crit
+	// On écrit
 	if ($handle){
 	fwrite($handle,$info."\n".$erreur."\n poids= ".$poids." oct \n");
 	fclose($handle);
@@ -94,4 +94,3 @@ error_reporting(E_ALL);
 set_error_handler('recuperer_erreur');
 
 ?>
-

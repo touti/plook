@@ -2,13 +2,13 @@
 /************************************************\
  *  PLOOK					*
  *                                              *
- *  Copyright 2004-2012     			*
+ *  Copyright 2004-2010     			*
  *  Anne-lise Martenot, http//plook.fr		*
  *                                            	*
  *  Licence GNU/GPL.     			*
  *   						*
 \************************************************/
-
+/*		PLOOK 1.3 - janv 2010 		*/
 
 //vous etes sur la page maitresse des modules
 //module_plus.php surcharge par include admin/function.inc.php

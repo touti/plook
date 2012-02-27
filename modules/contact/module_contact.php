@@ -2,15 +2,15 @@
 /************************************************\
  *  PLOOK					*
  *                                              *
- *  Copyright 2004-2012     			*
+ *  Copyright 2004-2010     			*
  *  Anne-lise Martenot, http//plook.fr		*
  *                                            	*
  *  Licence GNU/GPL.     			*
  *   						*
 \************************************************/
+/*		PLOOK 1.3 - janv 2010 		*/
 
-
-//modules/module_contact.php est appellÃ© par module_plus.php
+//modules/module_contact.php est appellŽ par module_plus.php
 //secu
 if (!defined("_DIR_TXT")) return;
 
@@ -114,4 +114,3 @@ $pipecontent.="
 }
 
 ?>
-

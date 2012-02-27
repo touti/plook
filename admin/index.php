@@ -5,12 +5,13 @@ headers("Content-Type: text/html; charset=utf-8",$path_page);
 /************************************************\
  *  PLOOK					*
  *                                              *
- *  Copyright 2004-2012     			*
+ *  Copyright 2004-2010     			*
  *  Anne-lise Martenot, http//plook.fr		*
  *                                            	*
  *  Licence GNU/GPL.     			*
  *   						*
 \************************************************/
+/*		PLOOK 1.3 - janv 2010 		*/
 
 ?><!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
 <?php echo "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='$lang' lang='$lang' dir='$ltr'>\n";?>
