@@ -72,7 +72,7 @@ else headers("Content-Type: text/html; charset=utf-8",$path_page);
 	</div>
 
 </div>
-<p>
+<p class="time">
 <?php
 //Temps d'execution
 $fin = microtime(true);
