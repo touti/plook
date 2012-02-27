@@ -10,8 +10,8 @@ A simple CMS without data
 - Modify/Add pages going to /admin
 - Give login/password in admin/protect.php
 
-Un CMS hyper léger sans base de données
-- Assurez vous de pouvoir écrire dans le dossier
+Un CMS hyper l√©ger sans base de donn√©es
+- Assurez vous de pouvoir √©crire dans le dossier
 - Ouvrir le dossier dans un navigateur
 - Modifiez/Ajoutez les pages dans /admin
 - Donnez un login/mot de passe dans admin/protect.php
