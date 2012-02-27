@@ -2,13 +2,13 @@
 /************************************************\
  *  PLOOK					*
  *                                              *
- *  Copyright 2004-2010     			*
+ *  Copyright 2004-2012     			*
  *  Anne-lise Martenot, http//plook.fr		*
  *                                            	*
  *  Licence GNU/GPL.     			*
  *   						*
 \************************************************/
-/*		PLOOK 1.3 - janv 2010 		*/
+/*		PLOOK 1.3.1 - fev 2012 		*/
 
 
 if(strrpos(s('PHP_SELF'),'function.inc.php')!==FALSE)die('Access Denied');
@@ -51,7 +51,7 @@ $plook=_DIR_IMG."plook.gif"; //!delete
 $lang="fr";
 $ltr='ltr';
 
-//variables ˆ null
+//variables Ã  null
 $mess=null;
 $admin_message=null;
 $pipe_head=null;
@@ -943,7 +943,7 @@ function headers($content,$path=''){
 	global $path_page,  $sitepath, $isadmin;
 $image=(strrpos($content,'inline')!==FALSE)?true:null;
 $sizim =($image && is_file($path))?getimagesize($path):null;
-ob_start('ob_gzhandler');
+#ob_start('ob_gzhandler');
 if(strpos($content,"text/css")!==FALSE) ob_start('compress');
 if($sizim){
 header("Content-type: {$sizim['mime']}");

@@ -3,13 +3,13 @@
 /************************************************\
  *  PLOOK					*
  *                                              *
- *  Copyright 2004-2010     			*
+ *  Copyright 2004-2012     			*
  *  Anne-lise Martenot, http//plook.fr		*
  *                                            	*
  *  Licence GNU/GPL.     			*
  *   						*
 \************************************************/
-/*		PLOOK 1.3 - janv 2010 		*/
+
 
 
 .formcontact {width:26em; margin:0.5em auto; margin-left:3em; padding:1em; background-color:#81999F; border:0;text-align:left; font-size:1em; color:#333;}

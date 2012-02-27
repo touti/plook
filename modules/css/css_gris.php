@@ -4,13 +4,13 @@ if(!defined('_DIR_TXT')) die('Un probleme?');
 /************************************************\
  *  PLOOK					*
  *                                              *
- *  Copyright 2004-2010     			*
+ *  Copyright 2004-2012     			*
  *  Anne-lise Martenot, http//plook.fr		*
  *                                            	*
  *  Licence GNU/GPL.     			*
  *   						*
 \************************************************/
-/*		PLOOK 1.3 - janv 2010 		*/
+
 
 /* GALA > http://blog.html.it/layoutgala */
 
