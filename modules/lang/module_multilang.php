@@ -2,15 +2,15 @@
 /************************************************\
  *  PLOOK					*
  *                                              *
- *  Copyright 2004-2010     			*
+ *  Copyright 2004-2012     			*
  *  Anne-lise Martenot, http//plook.fr		*
  *                                            	*
  *  Licence GNU/GPL.     			*
  *   						*
 \************************************************/
-/*		PLOOK 1.3 - janv 2010 		*/
 
-//merci � SPIP
+
+//merci à SPIP
 
 //secu
 if (!defined("_DIR_TXT")) return;
@@ -26,8 +26,8 @@ $langues = array (
 		'de' => 'Deutsch',
 		'en' => 'English',
 		'eo' => 'Esperanto',
-		'es' => 'espa&ntilde;ol',
-		'fr' => 'fran&ccedil;ais'
+		'es' => 'español',
+		'fr' => 'français'
 );
 
 function surcharger_langue($module,$lang,$fichier=false) {
@@ -148,3 +148,4 @@ $mess.=faire('ecrire',_DIR_CONF,'titre_page',_rq('lang')."\n"."# "._T('titre_').
 $lien_modules.=is_dir(_DIR_MODULES."lang/")?menu_languesT($lang):'';
 
 ?>
+
