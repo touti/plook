@@ -2,13 +2,13 @@
 /************************************************\
  *  PLOOK					*
  *                                              *
- *  Copyright 2004-2010     			*
+ *  Copyright 2004-2012     			*
  *  Anne-lise Martenot, http//plook.fr		*
  *                                            	*
  *  Licence GNU/GPL.     			*
  *   						*
 \************************************************/
-/*		PLOOK 1.3 - janv 2010 		*/
+
 
 //secu
 if (!defined("_DIR_TXT")) return;
@@ -152,12 +152,12 @@ function recursif($path){
 			
                 }	
 			
-                //si dossier rappel recursif en modifiant la racine du dossier ˆ ouvrir
+                //si dossier rappel recursif en modifiant la racine du dossier Ã  ouvrir
                 elseif(is_dir($path.$el.'/')){
 		  $isok=isrepok($path.$el.'/');
 			$public=$isok['ispublic'];
 		
-                        //fusion des rŽsultats rŽcursifs SSI public ok
+                        //fusion des rÃ©sultats rÃ©cursifs SSI public ok
 			if ($public!='nonpublic'){
 			$data= array_merge($data, recursif($path.$el.'/'));
 			}
@@ -236,3 +236,4 @@ function items(){
 }
 
 ?>
+
