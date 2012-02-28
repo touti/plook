@@ -260,46 +260,45 @@ return $str;
 }
 
 
-
 function lire($quoi='public',$path_f=''){
 global $isadmin, $thisfile,$path_page,$sitefile,$pathrep,$accfile;
 $ret=null;
 if (!$path_f) $path_f=$path_page;
-if (is_file($path_f)) {	
-if (!$fr = fopen($path_f, "rb")){ exit; }
-	else{if (!is_dir($path_f)){
-		$titre_page = trim(fgets($fr,255)); //1er ligne
-		$lon = filesize($path_f);
- if ($lon==0) return;
-		$ch=@fread($fr,$lon);
-		//public ?
-		$testpub=preg_match("[^<!non publi]", $ch)?'nonpublic':'';
-		if ($quoi=="testpublic") return $testpub; //rep = vide
-		
-		//config not public!
-		if($pathrep==_DIR_CONF && !$isadmin && $quoi=="public") return;
-		elseif(!$isadmin && $testpub=='nonpublic') return;
-			elseif ($quoi=="nobr"){
-			$ret= preg_replace("(\r\n|\n|\r)",'',$ch);
+	if (is_file($path_f)) {
+	if (!$fr = fopen($path_f, "rb")){ exit; }
+		else{if (!is_dir($path_f)){
+			$titre_page = trim(fgets($fr,255)); //1er ligne
+			$lon = filesize($path_f);
+				if ($lon==0) return;
+			$ch=@fread($fr,$lon);
+			//public ?
+			$testpub=preg_match("[^<!non publi]", $ch)?'nonpublic':'';
+			if ($quoi=="testpublic") return $testpub; //rep = vide
+			
+			//config not public!
+			if($pathrep==_DIR_CONF && !$isadmin && $quoi=="public") return;
+			elseif(!$isadmin && $testpub=='nonpublic') return;
+				elseif ($quoi=="nobr"){
+				$ret= preg_replace("(\r\n|\n|\r)",'',$ch);
+				}
+				elseif ($quoi=="public"){
+				$ret=dop(nl2br($ch));
+				}
+				elseif ($quoi=='titre') $ret = $titre_page;
+				elseif ($quoi=='prive') 
+				$ret =  $ch;
+	
+			 fclose($fr);
 			}
-			elseif ($quoi=="public"){
-			$ret=dop(nl2br($ch));
-			}
-			elseif ($quoi=='titre') $ret = $titre_page;
-			elseif ($quoi=='prive') 
-			$ret =  $ch; 
-
-		 fclose($fr);
+		}
+	}else{ if (is_dir($path_f)) return $thisfile;
+		 //sous rep or 404
+		 $sous=findpath($thisfile);
+		 if (is_file($sous)) $ret=lire($quoi,$sous);
+		 elseif (is_dir(_DIR_TXT)&& $thisfile!=$sitefile){
+			 $ret = $thisfile==$accfile?"":"$thisfile 404 :( "._T('choisir_page');
 		}
 	}
-}else{ if (is_dir($path_f)) return $thisfile;
-	 //sous rep or 404
-	 $sous=findpath($thisfile);
-	 if (is_file($sous)) $ret=lire($quoi,$sous);
-	 elseif (is_dir(_DIR_TXT)&& $thisfile!=$sitefile){
-		 $ret = $thisfile==$accfile?"":"$thisfile 404 :( "._T('choisir_page');
-	}
-}
 //secu for only dir /textes
 //$ret=(strrpos($path_f,_DIR_TXT)===FALSE)?'':$ret;
 return $ret;
@@ -365,45 +364,36 @@ return $ret;
 }		
 
 //explore rep
-function explorer($homedir='',$count='',$order='') {
+function explorer($homedir='',$count='',$order=null) {
 global $thispage;
 	if(is_dir($homedir)){
 	$ret=Array();
 	$files=Array();
 	$nb=Array();
 	$sousrep=Array();
-	
-	$dir = opendir($homedir);
-	while (false !== ($file = readdir($dir))) {
-	if ($file!="." && $file!=".." && $file!=".DS_Store" && $file!="Thumbs.db"){
 
-			
-			if (is_dir($homedir."/".$file)){
-				$sousrep[] = $file; //sous reps txt
-				$nb = array_merge($nb,explorer($homedir."/".$file,$count));
-
-			}
-			elseif (preg_match("[^$thispage\_]", $file)){
+	    foreach (new DirectoryIterator($homedir) as $fileInfo) {
+	    if($fileInfo->isDot()) continue;
+	    $file=$fileInfo->getFilename();
+	     
+	    if ($fileInfo->isDir()) {
+			$sousrep[] = $file;
+			$nb = array_merge($nb,explorer($homedir."/".$file,$count));
+	     }
+	    elseif (preg_match("[^$thispage\_]", $file)){
 			$nb[]= $file;
 			}
-			
-			$files[] = $file; //files + reps
-	}
-	}
-	
-	closedir($dir);
-	
-	if($order==''){
-	natcasesort($files);
-	natcasesort($sousrep);
-	}
-	
-	$ret['files'] = $files;
-	$ret['sous_reps'] = $sousrep;
-	$return=$count=="count"?$nb:$ret;
-	return $return;
-	}
-	
+	    $files[] = $file; //files + reps
+	    
+	    }
+	    if(!$order){
+	    ksort($files);
+	    }
+	    $ret['files'] = $files;
+	    $ret['sous_reps'] = $sousrep;
+	    $return=$count=="count"?$nb:$ret;
+	    return $return;
+    	}
 }
 
 
@@ -418,13 +408,13 @@ function imagier($aff='public',$dir=_DIR_IMG){
 	$tagopen="<div $mode>";
 	$n=0;
 	
-$array=Array();
-$explorep = explorer($dir);
+	$array=Array();
+	$explorep = explorer($dir);
 	/*if($aff!='all') $array=$explorep['inpage'];
 	else */
 	$array=$explorep['files'];
 	
-foreach($array as $file) {
+	foreach($array as $file) {
 	
 		$fichier=$dir.$file;
 	if(!is_dir($fichier)){
