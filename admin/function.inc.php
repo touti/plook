@@ -260,49 +260,53 @@ return $str;
 }
 
 
+
+//a partir d'un fichier $path_f teste si public
+//interprete ou non son titre et son contenu suivant $quoi
 function lire($quoi='public',$path_f=''){
-global $isadmin, $thisfile,$path_page,$sitefile,$pathrep,$accfile;
-$ret=null;
-if (!$path_f) $path_f=$path_page;
+	global $isadmin, $thisfile,$path_page,$sitefile,$pathrep,$accfile;
+	if (!$path_f) $path_f=$path_page;
+
+	//si c'est un fichier que l'on peut lire
 	if (is_file($path_f)) {
-	if (!$fr = fopen($path_f, "rb")){ exit; }
-		else{if (!is_dir($path_f)){
-			$titre_page = trim(fgets($fr,255)); //1er ligne
-			$lon = filesize($path_f);
-				if ($lon==0) return;
-			$ch=@fread($fr,$lon);
-			//public ?
-			$testpub=preg_match("[^<!non publi]", $ch)?'nonpublic':'';
-			if ($quoi=="testpublic") return $testpub; //rep = vide
-			
-			//config not public!
-			if($pathrep==_DIR_CONF && !$isadmin && $quoi=="public") return;
-			elseif(!$isadmin && $testpub=='nonpublic') return;
-				elseif ($quoi=="nobr"){
-				$ret= preg_replace("(\r\n|\n|\r)",'',$ch);
-				}
-				elseif ($quoi=="public"){
-				$ret=dop(nl2br($ch));
-				}
-				elseif ($quoi=='titre') $ret = $titre_page;
-				elseif ($quoi=='prive') 
-				$ret =  $ch;
-	
-			 fclose($fr);
+		if (!$fr = fopen($path_f, "rb")) exit;
+			else{
+				//lecture 1er ligne
+				$titre_page = trim(fgets($fr,255));
+				//suite contenu  du fichier
+				$lon = filesize($path_f);
+				if ($lon==0) return; //rien à lire
+				$ch=@fread($fr,$lon); 
+				fclose($fr);
+				
+				//teste les pages interdites
+				$testpub=preg_match("[^<!non publi]", $ch)?'nonpublic':'';
+				
+				//retourne au besoin un nonpublic explicite
+				if ($quoi=="testpublic") return $testpub;
+				//pas de lecture publique pour les fichiers de configuration ou les pages interdites
+				if(($pathrep==_DIR_CONF && !$isadmin && $quoi=="public")||(!$isadmin && $testpub=='nonpublic'))
+					return;// _T('non_public');
+				
+				if ($quoi=="nobr") return preg_replace("(\r\n|\n|\r)",'',$ch);
+				if ($quoi=="public") return dop(nl2br($ch));
+				if ($quoi=='titre') return $titre_page;
+				if ($quoi=='prive') return $ch;
 			}
-		}
-	}else{ if (is_dir($path_f)) return $thisfile;
-		 //sous rep or 404
-		 $sous=findpath($thisfile);
-		 if (is_file($sous)) $ret=lire($quoi,$sous);
-		 elseif (is_dir(_DIR_TXT)&& $thisfile!=$sitefile){
-			 $ret = $thisfile==$accfile?"":"$thisfile 404 :( "._T('choisir_page');
+		
+	}else{
+		//renvoie le titre si c'est un dossier
+		if (is_dir($path_f)) return $thisfile;
+		//sous rep
+		$sous=findpath($thisfile);
+		if (is_file($sous)) return lire($quoi,$sous);
+		//sinon c'est une 404
+		 elseif (is_dir(_DIR_TXT) && $thisfile!=$sitefile){
+		 	 return $thisfile==$accfile?"":"$thisfile 404 :( ";//._T('choisir_page');
 		}
 	}
-//secu for only dir /textes
-//$ret=(strrpos($path_f,_DIR_TXT)===FALSE)?'':$ret;
-return $ret;
 }
+
 
 //fil d'ariane
 function ariane($chevre=" &#9658; "){
