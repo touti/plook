@@ -13,7 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 'Plook_'=>'MON SITE PLOOK',
 'plook_le_cms_facile'=>'Réalisé avec PLOOK, mini CMS sans base de données',
-'accueil'=>'ACCUEIL',
+'accueil'=>'Accueil',
 'bienvenue_sur_votre_site'=>'<h2>Bravo et bienvenue!</h2>Vous pouvez poursuivre la création de votre site 
 pour remplaçer ce texte par celui de votre page d\'accueil ! 
 ',
