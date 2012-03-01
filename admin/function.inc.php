@@ -285,15 +285,14 @@ function lire($quoi='public',$path_f=''){
 				//retourne au besoin un nonpublic explicite
 				if ($quoi=="testpublic") return $testpub;
 				//pas de lecture publique pour les fichiers de configuration ou les pages interdites
-				if(($pathrep==_DIR_CONF && !$isadmin && $quoi=="public")||(!$isadmin && $testpub=='nonpublic'))
+				if(($pathrep==_DIR_CONF && !$isadmin && $quoi=='public')||(!$isadmin && $testpub=='nonpublic'))
 					return;// _T('non_public');
 				
-				if ($quoi=="nobr") return preg_replace("(\r\n|\n|\r)",'',$ch);
-				if ($quoi=="public") return dop(nl2br($ch));
 				if ($quoi=='titre') return $titre_page;
 				if ($quoi=='prive') return $ch;
+				if ($quoi=='nobr') return preg_replace("(\r\n|\n|\r)",'',$ch);
+				if ($quoi=='public') return dop(nl2br($ch));
 			}
-		
 	}else{
 		//renvoie le titre si c'est un dossier
 		if (is_dir($path_f)) return $thisfile;
@@ -312,7 +311,7 @@ function lire($quoi='public',$path_f=''){
 function ariane($chevre=" &#9658; "){
 	global $path_page, $isadmin, $accueil, $accfile, $thisfile;
 	$ret=null;
-	$acc =ucwords(lire("titre",_DIR_TXT.$accfile));
+	$acc =lire("titre",_DIR_TXT.$accfile);
 	$explode=explode('/',$path_page);
 	$count=count($explode);
 	if (!$isadmin) {	//public
@@ -377,7 +376,7 @@ global $thispage;
 	$sousrep=Array();
 
 	    foreach (new DirectoryIterator($homedir) as $fileInfo) {
-	    if($fileInfo->isDot()) continue;
+	    if($fileInfo->isDot() || $fileInfo == '.DS_Store') continue;
 	    $file=$fileInfo->getFilename();
 	     
 	    if ($fileInfo->isDir()) {
@@ -498,50 +497,44 @@ function imagier($aff='public',$dir=_DIR_IMG){
 return $retour;
 }
 
-
-//tester un dossier
-//trouver son 1er fichier public et renvoyer le bon lien
-function isrepok($hdir,$page=''){
-	  //le rep est il public?
-$explorep = explorer($hdir.$page);
-	$sousf=$explorep['files']; 
-	sort($sousf);
-		$count=count($sousf);
-	//au moins un fichier dedans qui est un .txt 
-		if ($count>0 && strrchr($sousf[0],'.')==".txt"){
-		//on dirige vers le fichier
-		$a="?f=".str_replace('.txt','',$sousf[0]);
-		//test si public
-		$public=lire("testpublic",$hdir.$page."/".$sousf[0]);
+//le dossier est-il à publier?
+function isrepok($dir){
+	$explorep = explorer($dir);
+	$sousf=$explorep['files'];
+		//au moins un 1er fichier qui doit être un .txt
+		if (count($sousf)>0 && strrchr($sousf[0],'.')==".txt"){
+			//fichier public?
+			$public=lire("testpublic",$dir."/".$sousf[0]);
+			//lien vers ce fichier
+			$a="?f=".str_replace('.txt','',$sousf[0]);
 		}else{
-	//sinon le dossier est vide ou son premier fichier est un dossier
-		$a = "?d=".$page;
-		$public='nonpublic';
+			//le dossier est vide ou son 1er fichier est un dossier
+			$a = "?d=".$dir;
+			$public='nonpublic';
 		}
 	$ret['href'] = $a;
 	$ret['ispublic'] = $public;
-	return $ret;
-		
+	return $ret;	
 }
 
-/*MENU et SOUS MENU*/
-function menu($mode='suite',$hdir='',$page=''){
+//menu
+function menu($mode='suite',$hdir=_DIR_TXT,$page=''){
 	global $accfile, $isadmin, $thisfile, $path_page, $pathrep;
 	$ret=null;
-	if(!$hdir) $hdir=_DIR_TXT;
+
 	if(is_dir($hdir)){
-	if($mode=='not_racine' && $hdir==_DIR_TXT) return;
+		if($mode=='not_racine' && $hdir==_DIR_TXT) return;
 	
-	$id=!$page?"class='$mode'":"id='$page"."1'";
-	$ulfirt="\n<ul $id >\n";
-	$ulast= "</ul>\n"; 
-	
-	$explorep = explorer($hdir);
-	$files=$explorep['files'];
+		$id=!$page?"class='$mode'":"id='$page"."1'";
+		$ulfirt="\n<ul $id >\n";
+		$ulast= "</ul>\n";
+		
+		$explorep = explorer($hdir);
+		$files=$explorep['files'];
 	
   foreach ($files as $num=>$page){
 	  //txt?
-	  	if(strrchr($page,'.')==".txt"){
+	  	if(strrchr($page,'.')=='.txt'){
 		$a="?f=".str_replace('.txt','',$page);
 		$public=lire('testpublic',$hdir.$page); 
 		$titre=lire("titre",$hdir.$page);
@@ -558,7 +551,7 @@ function menu($mode='suite',$hdir='',$page=''){
 	
 	//REP sousrep? but not config!
            if (is_dir($hdir.$page)&& $hdir.$page.'/'!=_DIR_CONF) {
-		   $isok=isrepok($hdir,$page);
+		   $isok=isrepok($hdir.$page);
 		   $a=$isok['href'];
 		   $public=$isok['ispublic'];
 		   
